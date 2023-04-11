@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.auth import get_user_model
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -57,6 +58,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ikt.urls'
+
+# AUTH_USER_MODEL = 'accounts.User'
 
 TEMPLATES = [
     {
@@ -110,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

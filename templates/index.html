@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
+
+{% load static simple_tags %}
+
 {% block main %}
     <section class="home-slider owl-carousel">
         <div class="slider-item">
@@ -43,7 +45,6 @@
         </div>
     </section>
 
-
     <section class="ftco-section">
         <div class="container">
             <div class="row">
@@ -70,13 +71,13 @@
                         {% for i in stories%}
                         <div class="col-md-6 ftco-animate">
                             <div class="blog-entry">
-                                <a href="{% url 'single' i.id %}" class="img d-flex align-items-end" style="background-image: url({{ i.image.url }});">
+                                <a href="{% url 'single' i.slug %}" class="img d-flex align-items-end" style="background-image: url({{ i.image.url }});">
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text pt-3">
                                     <p class="meta d-flex"><span class="pr-3">{{ i.category.name }}</span><span class="ml-auto pl-3">{{ i.create_date|date:"F, d Y H " }}</span>
                                     </p>
-                                    <h3><a href="{% url 'single' i.id %}"> {{ i.title|title }}</a></h3>
+                                    <h3><a href="{% url 'single' i.slug %}"> {{ i.title|title }}</a></h3>
                                     <p class="mb-0"><a href="single.html" class="btn-custom">Read More <span
                                         class="icon-arrow_forward ml-4"></span></a></p>
                                 </div>
@@ -140,6 +141,7 @@
             </div>
         </div>
     </section>
+
     <section class="ftco-section">
         <div class="container">
             <div class="row">
@@ -183,9 +185,10 @@
                         <div class="sidebar-box categories text-center ftco-animate">
                             <h2 class="heading mb-4">Categories</h2>
                             <ul class="category-image">
+                                {% global_categories as categories %}
                                 {% for i in categories %}
                                 <li>
-                                    <a href="strories.html" class="img d-flex align-items-center justify-content-center text-center" style="background-image: url({{ i.image.url }});">
+                                    <a href="{% url 'index_categories' i.slug %}" class="img d-flex align-items-center justify-content-center text-center" style="background-image: url({{ i.image.url }});">
                                         <div class="text">
                                             <h3>{{ i.name }}</h3>
                                         </div>
@@ -252,8 +255,6 @@
             </div>
         </div>
     </section>
-
-
     <section class="ftco-subscribe ftco-section bg-light">
         <div class="overlay">
             <div class="container">

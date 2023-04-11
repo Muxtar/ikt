@@ -5,7 +5,7 @@ from home.models import Categorie, Tag, Storie,Comment
 
 @admin.register(Storie)
 class StorieAdmin(admin.ModelAdmin):
-    fields = ['title', 'image', 'cover_image', 'category', 
+    fields = ['user', 'title', 'image', 'cover_image', 'category', 
               'tag', 'desc']
     
     search_fields = ['category__name', 'tag__name', 'title']

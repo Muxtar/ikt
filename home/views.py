@@ -7,7 +7,6 @@ from home.models import Categorie,Storie
 # Create your views here.
 
 
-
 class myLoader():
     def __init__(self, template_name) -> None:
         from django.conf import settings
@@ -22,20 +21,41 @@ class myLoader():
         with open(self.BASE_DIR, 'r') as f:
             return f.read()
 
-def index(request):
+def index(request, slug = None):
     # html  = myLoader.get_template('index.html')
     # return HttpResponse(html.render())
     # html = loader.get_template('index.html')
     # return HttpResponse(html.render())
+    stories = Storie.objects.all()
+
+    if slug:
+        stories = stories.filter(category__slug = slug)
+   
     context = {
-        'categories': Categorie.objects.all(),
-        'stories':Storie.objects.all()
+        'stories':stories
     }
     return render(request, 'index.html', context=context)
 
-def single(request, id):
+def about(request):
+    return render(request, 'about.html')
+
+def recipes(request):
+    return render(request, 'recipes.html')
+
+def stories(request, slug = None):
+    stories = Storie.objects.all()
+
+    if slug:
+        stories = stories.filter(category__slug = slug)
+
     context = {
-        'storie':Storie.objects.get(id = id)
+        'stories': stories
+    }
+    return render(request, 'stories.html', context=context)
+
+def single(request, slug):
+    context = {
+        'storie':Storie.objects.get(slug = slug)
         }
     return render(request, 'single.html', context=context)
 

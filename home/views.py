@@ -44,9 +44,12 @@ def recipes(request):
 
 def stories(request, slug = None):
     stories = Storie.objects.all()
-
     if slug:
-        stories = stories.filter(category__slug = slug)
+        tag = request.GET.get('tag')
+        if not tag:
+            stories = stories.filter(category__slug = slug)
+        else:
+            stories = stories.filter(tag__slug = slug)
 
     context = {
         'stories': stories

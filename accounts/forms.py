@@ -43,3 +43,5 @@ class Register(forms.ModelForm):
             raise forms.ValidationError('Confirm password and Password not equal')
 
         return super().clean()
+    
+

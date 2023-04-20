@@ -29,6 +29,7 @@ class Categorie(Base):
 
 class Tag(Base):
     name = models.CharField(max_length=30)
+    slug = models.SlugField(max_length=100, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name

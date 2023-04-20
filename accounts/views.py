@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as djangoLogin, logout as djangoLogout
 from django.contrib.auth.models import User
 from home.models import Storie
+from accounts.models import Profile
 from accounts.forms import Register
+from django.contrib.auth.views import (PasswordResetView, 
+                                       PasswordResetConfirmView,
+                                       PasswordResetDoneView
+                                       )
 
 # Create your views here.
 
@@ -38,8 +44,8 @@ def register(request):
             user = data.save()
             user.set_password(user.password)
             user.save()
+            return redirect(reverse_lazy('login'))
         else:
-            print(data.errors)
             context['forms'] = data
 
     return render(request, 'accounts/register.html', context)
@@ -50,7 +56,17 @@ def logout(request):
 
 @login_required
 def profile(request):
+    if request.method == 'POST':
+        image = request.FILES.get('image')
+        with open(f'/home/mb/Desktop/iktlab/media/profile/{image.name}', 'wb') as f:
+            f.write(image.read())
+            userProfile = Profile.objects.get(user_id = request.user.id) 
+            userProfile.img = 'profile/'+image.name
+            userProfile.save()
     context = {
         'my_stories':Storie.objects.filter(user = request.user)
     }
     return render(request, 'user-profile.html', context=context)
+
+class MyPasswordResetView(PasswordResetView):
+    template_name = 'accounts/forget_password.html'

@@ -10,7 +10,6 @@ from contact.forms import ContactForm
 def contact(request):
     form = ContactForm()
     context = {'form':form}
-
     if request.method == 'POST':
         test = ContactForm(request.POST)
         if test.is_valid():

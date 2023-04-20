@@ -9,7 +9,15 @@
                     <div class="user-profile-side-bar sidebar-wrap">
                         <div class="sidebar-box p-4 about text-center ftco-animate">
                             <h2 class="heading mb-4">About Me</h2>
-                            <img src="images/author.jpg" class="img-fluid" alt="Colorlib Template">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <label for="my-image">
+                                    <img src="{{ request.user.profile.img.url }}" class="img-fluid my-image" alt="Colorlib Template">
+                                    <input type="file" name="image" id="my-image" hidden>
+                                </label>
+                             
+                                {% csrf_token %}
+                                <input type="submit" value="Save">
+                            </form>
                             <div class="text pt-4">
                                 <p>Hi! My name is <strong>{{ request.user.username|title }}</strong>, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics,
                                     a large language ocean.</p>
@@ -73,4 +81,14 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        // let myImage = document.getElementById('my-image');
+        // let imgTag = document.getElementsByClassName('my-image')[0];
+        // myImage.addEventListener('change', (e)=>{
+            
+        // })
+    </script>
 {% endblock %}

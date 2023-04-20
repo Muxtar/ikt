@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static simple_tags %}
 {% block main %}
     <section class="hero-wrap hero-wrap-2" style="background-image: url({{ storie.cover_image.url }});">
         <div class="overlay"></div>
@@ -35,6 +35,7 @@
                     <p>
                         <img src="images/image_4.jpg" alt="" class="img-fluid">
                     </p>
+                    <p id="test"></p>
                     <p>Quisquam esse aliquam fuga distinctio, quidem delectus veritatis reiciendis. Nihil explicabo quod,
                         est eos ipsum. Unde aut non tenetur tempore, nisi culpa voluptate maiores officiis quis vel ab
                         consectetur suscipit veritatis nulla quos quia aspernatur perferendis, libero sint. Error, velit,
@@ -55,10 +56,12 @@
                         inventore?</p>
                     <div class="tag-widget post-tag-container mb-5 mt-5">
                         <div class="tagcloud">
-                            <a href="#" class="tag-cloud-link">Life</a>
-                            <a href="#" class="tag-cloud-link">Sport</a>
+                            {% for tag in storie.tag.all %}
+                                <a href="{% url 'stories_categories' tag.slug %}?tag={{ tag.name }}" class="tag-cloud-link">{{ tag.name }}</a>
+                            {% endfor %}
+                            <!-- <a href="#" class="tag-cloud-link">Sport</a>
                             <a href="#" class="tag-cloud-link">Tech</a>
-                            <a href="#" class="tag-cloud-link">Travel</a>
+                            <a href="#" class="tag-cloud-link">Travel</a> -->
                         </div>
                     </div>
 
@@ -215,12 +218,15 @@
                     <div class="sidebar-box ftco-animate">
                         <ul class="categories">
                             <h3 class="heading mb-4">Categories</h3>
-                            <li><a href="#">Travel <span>(12)</span></a></li>
-                            <li><a href="#">Tour <span>(22)</span></a></li>
+                            {% global_categories as categories %}
+                            {% for i in categories %}
+                                <li><a href="{% url 'stories_categories' i.slug %}">{{ i.name|title }} <span>({{ i.story.all|length }})</span></a></li>
+                            {% endfor %}
+                            <!-- <li><a href="#">Tour <span>(22)</span></a></li>
                             <li><a href="#">Destination <span>(37)</span></a></li>
                             <li><a href="#">Drinks <span>(42)</span></a></li>
                             <li><a href="#">Foods <span>(14)</span></a></li>
-                            <li><a href="#">Travel <span>(140)</span></a></li>
+                            <li><a href="#">Travel <span>(140)</span></a></li> -->
                         </ul>
                     </div>
 
@@ -303,4 +309,23 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        let p = document.getElementById('test');
+        let message = `
+                Quisquam esse aliquam fuga distinctio, quidem delectus veritatis reiciendis. Nihil explicabo quod,
+                `
+        let index = 0;
+        let int = setInterval(()=>{
+            let tag = "<span style='color:red;'>|</span>";
+            p.innerHTML = p.innerHTML.slice(0, p.innerHTML.length-tag.length)+message[index]+tag;
+            index++;
+            if(index == message.length){
+                p.innerHTML = p.innerHTML.slice(0, p.innerHTML.length-tag.length)
+                clearInterval(int)
+            }
+        }, 50)
+    </script>
 {% endblock %}

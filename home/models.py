@@ -14,7 +14,6 @@ class Base(models.Model):
     class Meta:
         abstract = True
 
-
 class Categorie(Base):
     name = models.CharField(max_length=30, unique=True)
     image = models.ImageField(upload_to='images/categories')
@@ -28,7 +27,7 @@ class Categorie(Base):
         return super().save(args)
 
 class Tag(Base):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     slug = models.SlugField(max_length=100, blank=True, null=True)
 
     def __str__(self) -> str:
@@ -38,20 +37,19 @@ class Storie(Base):
     category = models.ForeignKey(Categorie, related_name='story', on_delete=models.CASCADE)
     tag = models.ManyToManyField(Tag, related_name='story', blank=True)
     user = models.ForeignKey(User, related_name='story', on_delete=models.CASCADE)
-
+    image = models.ImageField(upload_to='stories/images', null = True, blank = True)
+    cover_image = models.ImageField(upload_to='stories/cover', null = True, blank = True)
     title = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='stories/images')
-    cover_image = models.ImageField(upload_to='stories/cover')
     desc =  models.TextField()
-    slug = models.SlugField(max_length=100, blank=True, null=True, editable=False)
+    slug = models.SlugField(max_length=100, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.title
     
-    def save(self, *args) -> None:
-        data = '-'.join(self.title.split())
-        self.slug = str(f"{data}-{self.id}")
-        return super().save(args)
+    # def save(self, *args) -> None:
+    #     data = '-'.join(self.title.split())
+    #     self.slug = str(f"{data}-{self.id}")
+    #     return super().save(args)
     
     # def save(self, *args, **kwargs) -> None:
     #     return super.save(args, kwargs)
@@ -65,3 +63,8 @@ class Comment(Base):
 
     def __str__(self) -> str:
         return self.comment[:20]
+
+class Subcribe(Base):
+    email = models.EmailField(max_length=50, unique=True)
+    def __str__(self) -> str:
+        return self.email

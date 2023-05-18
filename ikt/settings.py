@@ -149,3 +149,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'muxtar.bayramov92@gmail.com'
 EMAIL_HOST_PASSWORD = 'nebsmuhtvzucnkdq'
+
+from rest_framework import permissions
+
+
+# REST_FRAMEWORK = {  
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'home.api.permissions.MyPermissions',
+#     ]
+# }

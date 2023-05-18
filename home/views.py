@@ -3,7 +3,9 @@ from django.http import (   HttpResponse,
                             JsonResponse)
 
 from django.template import loader
-from home.models import Categorie,Storie
+from home.models import Categorie, Storie, Subcribe
+from home.forms import SubcribeForm
+from rest_framework import status
 # Create your views here.
 
 
@@ -62,3 +64,12 @@ def single(request, slug):
         }
     return render(request, 'single.html', context=context)
 
+def subcribe(request):
+    if request.method == 'POST':
+        form = SubcribeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            JsonResponse.status_code = status.HTTP_201_CREATED
+            return JsonResponse({'message':'Success'})
+    JsonResponse.status_code = status.HTTP_400_BAD_REQUEST
+    return JsonResponse({'message':form.errors})

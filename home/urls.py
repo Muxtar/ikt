@@ -13,5 +13,6 @@ urlpatterns = [
    path('stories/<slug:slug>/', stories, name = 'stories_categories'),
 
    path('recipes/', recipes, name = 'recipes'),
-   path('single/<slug:slug>', single, name = 'single')
+   path('single/<slug:slug>', single, name = 'single'),
+   path('subcribe/', subcribe, name = 'subcribe')
 ]

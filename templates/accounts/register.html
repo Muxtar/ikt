@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row block-9 justify-content-center">
                 <div class="col-md-6 order-md-last d-flex">
-                    <form action="" class="bg-light p-5 contact-form" method="post">
+                    <form action="" class="bg-light p-5 contact-form" method="post" id="my-form">
                        {% for key, value in  forms.errors.items %}
                         <div class="alert alert-danger" role="alert">
                             {{ value }}
@@ -24,7 +24,7 @@
                             </div>
                         {% endfor %}
                         <div class="form-group">
-                            <input type="submit" value="Register" class="btn btn-primary py-3 px-5">
+                            <input type="button" value="Register" class="btn btn-primary py-3 px-5" onclick="send()">
                         </div>
                     </form>
 
@@ -32,4 +32,23 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function send(){
+            let token = document.getElementById('my-form').elements[0].value;
+            let user = {username:'hikmet', email:'hikmet@gmail.com', password:'muxtar1234'}
+
+            fetch('http://127.0.0.1:8000/accounts/api/register/', {
+                method:'POST',
+                headers:{
+                    'Content-type':'application/json',
+                    'X-CSRFToken':token
+                    },
+                body: JSON.stringify(user)
+            }).then(data => data.json()).then(data => console.log(data))
+        }
+
+    </script>
 {% endblock %}

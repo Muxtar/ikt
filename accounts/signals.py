@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 @receiver(post_save, sender = User)
 def ProfileSignal(sender, instance, created, **kwargs):
     if created:
+        instance.set_password(instance.password)
+        instance.save()
         Profile.objects.create(user = instance)
 
 
